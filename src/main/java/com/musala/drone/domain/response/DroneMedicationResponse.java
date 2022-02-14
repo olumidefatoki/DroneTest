@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DroneMedicationResponse {
-    DroneResponse drone;
     String name;
     Double weight;
     String code;

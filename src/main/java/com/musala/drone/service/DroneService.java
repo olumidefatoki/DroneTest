@@ -78,6 +78,8 @@ public class DroneService {
 
         Drone drone = droneRepo.findBySerialNumber(request.getSerialNumber())
                 .orElseThrow(() -> new BadRequestException("invalid serial number provided"));
+        if (drone.getBatteryCapacity() < 25)
+            throw new BadRequestException("Battery level is too low");
 
         List<Medication> medications = medicationRepo.findByDroneId(drone.getId());
 
@@ -93,8 +95,9 @@ public class DroneService {
         drone.setState(DroneState.LOADING.name());
         droneRepo.save(drone);
 
-        return mapper.map(request, new TypeToken<DroneMedicationResponse>() {
+       return mapper.map(request, new TypeToken<DroneMedicationResponse>() {
         }.getType());
+
     }
 
     public List<DroneMedicationResponse> getDroneMedication(String serialNumber) {
