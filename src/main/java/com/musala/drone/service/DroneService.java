@@ -5,6 +5,7 @@ import com.musala.drone.domain.request.CreateDroneRequest;
 import com.musala.drone.domain.request.MedicationRequest;
 import com.musala.drone.domain.response.DroneMedicationResponse;
 import com.musala.drone.domain.response.DroneResponse;
+import com.musala.drone.enums.DroneState;
 import com.musala.drone.enums.PictureFormat;
 import com.musala.drone.exception.BadRequestException;
 import com.musala.drone.model.Drone;
@@ -55,6 +56,12 @@ public class DroneService {
         }.getType());
     }
 
+    public List<DroneResponse> findAvailableDrone() {
+        List<Drone> allDrone = droneRepo.findAllAvailableDrone();
+        return mapper.map(allDrone, new TypeToken<List<DroneResponse>>() {
+        }.getType());
+    }
+
     public DroneMedicationResponse createDroneMedication(MedicationRequest request) throws IOException {
         validateFile(request.getImage());
 
@@ -72,6 +79,8 @@ public class DroneService {
         medication.setDroneId(drone.getId());
         medication.setImage(uploadPicture(request.getImage()));
         medicationRepo.save(medication);
+        drone.setState(DroneState.LOADING.name());
+        droneRepo.save(drone);
 
         return mapper.map(request, new TypeToken<DroneMedicationResponse>() {
         }.getType());

@@ -69,4 +69,16 @@ public class DispatchController {
         return ResponseEntity.ok().body(response);
     }
 
+
+    @GetMapping("/drone/available")
+    public ResponseEntity<ApiResponse<List<DroneResponse>>> availableDrone() {
+        List<DroneResponse> allDrone = service.findAvailableDrone();
+        ApiResponse<List<DroneResponse>> response = ApiResponse.<List<DroneResponse>>builder()
+                .message("successfully")
+                .data(allDrone)
+                .status(HttpStatus.OK.value())
+                .build();
+        return ResponseEntity.ok().body(response);
+    }
+
 }
