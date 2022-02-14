@@ -3,6 +3,7 @@ package com.musala.drone.service;
 import com.google.common.base.Enums;
 import com.musala.drone.domain.request.CreateDroneRequest;
 import com.musala.drone.domain.request.MedicationRequest;
+import com.musala.drone.domain.request.UpdateDroneRequest;
 import com.musala.drone.domain.response.DroneMedicationResponse;
 import com.musala.drone.domain.response.DroneResponse;
 import com.musala.drone.enums.DroneState;
@@ -45,6 +46,16 @@ public class DroneService {
                 }
         );
         Drone drone = mapper.map(request, Drone.class);
+        log.info("Request :{}", drone);
+        drone = droneRepo.save(drone);
+        return mapper.map(drone, DroneResponse.class);
+    }
+
+    public DroneResponse updateDrone(UpdateDroneRequest request) {
+
+        Drone drone = droneRepo.findBySerialNumber(request.getSerialNumber())
+                .orElseThrow(() -> new BadRequestException("invalid serial number provided"));
+        mapper.map(request, drone);
         log.info("Request :{}", drone);
         drone = droneRepo.save(drone);
         return mapper.map(drone, DroneResponse.class);

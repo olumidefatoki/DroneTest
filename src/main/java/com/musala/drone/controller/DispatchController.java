@@ -2,6 +2,7 @@ package com.musala.drone.controller;
 
 import com.musala.drone.domain.request.CreateDroneRequest;
 import com.musala.drone.domain.request.MedicationRequest;
+import com.musala.drone.domain.request.UpdateDroneRequest;
 import com.musala.drone.domain.response.ApiResponse;
 import com.musala.drone.domain.response.DroneMedicationResponse;
 import com.musala.drone.domain.response.DroneResponse;
@@ -31,6 +32,18 @@ public class DispatchController {
                 .message("Drone successfully created")
                 .data(drone)
                 .status(HttpStatus.CREATED.value())
+                .build();
+        return ResponseEntity.ok().body(response);
+    }
+
+
+    @PutMapping("")
+    public ResponseEntity<ApiResponse<DroneResponse>> createDrone(@Valid @RequestBody UpdateDroneRequest request) {
+        DroneResponse drone = service.updateDrone(request);
+        ApiResponse<DroneResponse> response = ApiResponse.<DroneResponse>builder()
+                .message("Drone successfully created")
+                .data(drone)
+                .status(HttpStatus.OK.value())
                 .build();
         return ResponseEntity.ok().body(response);
     }
