@@ -26,10 +26,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -95,7 +92,7 @@ public class DroneService {
         drone.setState(DroneState.LOADING.name());
         droneRepo.save(drone);
 
-       return mapper.map(request, new TypeToken<DroneMedicationResponse>() {
+        return mapper.map(request, new TypeToken<DroneMedicationResponse>() {
         }.getType());
 
     }
@@ -144,5 +141,11 @@ public class DroneService {
     private String getFileExtension(MultipartFile file) {
         String originalFileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
         return originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
+    }
+
+    public DroneResponse getDroneBatterLevel(String serialNumber) {
+        Drone drone = droneRepo.findBySerialNumber(serialNumber)
+                .orElseThrow(() -> new BadRequestException("invalid serial number provided"));
+        return mapper.map(drone, DroneResponse.class);
     }
 }

@@ -38,7 +38,7 @@ public class DispatchController {
 
 
     @PutMapping("")
-    public ResponseEntity<ApiResponse<DroneResponse>> createDrone(@Valid @RequestBody UpdateDroneRequest request) {
+    public ResponseEntity<ApiResponse<DroneResponse>> updateDrone(@Valid @RequestBody UpdateDroneRequest request) {
         DroneResponse drone = service.updateDrone(request);
         ApiResponse<DroneResponse> response = ApiResponse.<DroneResponse>builder()
                 .message("Drone successfully created")
@@ -94,4 +94,14 @@ public class DispatchController {
         return ResponseEntity.ok().body(response);
     }
 
+    @GetMapping("/batteryLevel/{serialNumber}")
+    public ResponseEntity<ApiResponse<DroneResponse>> getDroneBatteryLevel(@PathVariable String serialNumber) {
+        DroneResponse droneBatterLevel = service.getDroneBatterLevel(serialNumber);
+        ApiResponse<DroneResponse> response = ApiResponse.<DroneResponse>builder()
+                .message("successfully")
+                .data(droneBatterLevel)
+                .status(HttpStatus.OK.value())
+                .build();
+        return ResponseEntity.ok().body(response);
+    }
 }
