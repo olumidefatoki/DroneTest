@@ -1,6 +1,5 @@
 package com.musala.drone;
 
-import com.musala.drone.domain.request.DroneMedicationRequest;
 import com.musala.drone.domain.request.MedicationRequest;
 import com.musala.drone.enums.DroneModel;
 import com.musala.drone.enums.DroneState;
@@ -104,5 +103,15 @@ public class DroneApplication implements CommandLineRunner {
 		Medication medication = mapper.map(medicationRequest, Medication.class);
 		medication.setDroneId(1);
 		medicationRepo.save(medication);
+
+		medicationRequest  = new MedicationRequest();
+		medicationRequest.setWeight(2.0);
+		medicationRequest.setCode("CHL_002");
+		medicationRequest.setName("chloroquine");
+		 medication = mapper.map(medicationRequest, Medication.class);
+		medication.setDroneId(1);
+		medicationRepo.save(medication);
+
+
     }
 }

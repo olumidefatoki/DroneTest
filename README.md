@@ -25,6 +25,6 @@ Below are the api for various services
 - check drone battery level for a given drone : /api/v1/drone/batteryLevel/1234567890
 
 to get preloaded Drone Data : /api/v1/drone/all
-
-
+to update drone battery level : /api/v1/drone/
+to update drone  State : /api/v1/drone/
 :scroll: **END**
