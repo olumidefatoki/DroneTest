@@ -14,7 +14,7 @@ public class Drone {
     long id;
 
     @NotNull
-    //@Column(unique = true)
+    @Column(unique = true)
     String serialNumber;
 
     @NotNull
