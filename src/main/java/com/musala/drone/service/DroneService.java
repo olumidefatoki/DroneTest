@@ -92,8 +92,7 @@ public class DroneService {
         drone.setState(DroneState.LOADING.name());
         droneRepo.save(drone);
 
-        return mapper.map(request, new TypeToken<DroneMedicationResponse>() {
-        }.getType());
+        return mapper.map(request,DroneMedicationResponse.class);
 
     }
 
@@ -124,9 +123,9 @@ public class DroneService {
     }
 
     private String uploadPicture(MultipartFile file) throws IOException {
-        String filename = UUID.randomUUID().toString();
+        String filename =  "FILE_UPLOAD/" + file.getOriginalFilename();
         createDirectory("FILE_UPLOAD");
-        Path path = Paths.get("FILE_UPLOAD/" + filename + "." + getFileExtension(file));
+        Path path = Paths.get(filename);
         Files.write(path, file.getBytes());
         return filename;
     }
@@ -138,10 +137,7 @@ public class DroneService {
         }
     }
 
-    private String getFileExtension(MultipartFile file) {
-        String originalFileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
-        return originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
-    }
+
 
     public DroneResponse getDroneBatterLevel(String serialNumber) {
         Drone drone = droneRepo.findBySerialNumber(serialNumber)
